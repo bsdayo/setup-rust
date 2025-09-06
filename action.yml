@@ -1,0 +1,38 @@
+name: Setup Rust Toolchain
+description: Setup Rust toolchain with tool_cache respected.
+author: bsdayo
+
+inputs:
+  toolchain:
+    description: The Rust toolchain to install.
+    required: false
+    default: stable
+
+runs:
+  using: composite
+  steps:
+    - name: Setup environment variables
+      shell: bash
+      run: |
+        echo "RUSTUP_HOME=${{ runner.tool_cache }}/rustup" >> $GITHUB_ENV
+        echo "CARGO_HOME=${{ runner.tool_cache }}/cargo" >> $GITHUB_ENV
+
+    - name: Install rustup if not exists
+      shell: bash
+      run: |
+        if [[ ! command -v rustup &> /dev/null ]]; then
+          curl -fsSL https://sh.rustup.rs | sh -s -- -y --default-toolchain none
+          echo "$CARGO_HOME/bin" >> $GITHUB_PATH
+        fi
+
+    - name: Install Rust toolchain
+      shell: bash
+      run: |
+        rustup toolchain install ${{ inputs.toolchain }} --no-self-update
+        rustup default ${{ inputs.toolchain }}
+
+    - name: Verify installation
+      shell: bash
+      run: |
+        rustc --version
+        cargo --version

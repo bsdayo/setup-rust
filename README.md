@@ -1,4 +1,4 @@
-# Setup Rust Toolchain
+# Setup Rust Toolchain into Tool Cache
 
 Simple action for setting up Rust toolchain, with `tool_cache` respected.
 

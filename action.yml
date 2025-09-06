@@ -1,6 +1,9 @@
 name: Setup Rust Toolchain into Tool Cache
 description: Simple action for setting up Rust toolchain, with tool_cache respected.
 author: bsdayo
+branding:
+  icon: download
+  color: orange
 
 inputs:
   toolchain:
